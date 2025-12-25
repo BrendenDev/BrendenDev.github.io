@@ -1,25 +1,392 @@
-<!DOCTYPE html> 
-<html>
-  <head>
-    <title>Happy Birthday Joe!!!</title>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="style.css">
-  </head>
-  <body>
-    <div class="container">
-      <h2>What if I told you I did something completely <em>unnecessary</em> and <em>unreflective</em> of the effort I put in for your birthday?</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Seven Days of Thipmas</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    :root{
+      --bg:#0b1020;
+      --card:#0f1530;
+      --muted:#bfc7ff;
+      --accent:#6f7bff;
+      --glass: rgba(255,255,255,0.03);
+      --success:#6ee7b7;
+      --danger:#ff8b8b;
+      --radius:14px;
+      --card-pad:18px;
+    }
+
+    *{box-sizing:border-box}
+
+    html,body{
+      height:100%;
+      margin:0;
+      background:
+        radial-gradient(1200px 600px at 10% 10%, rgba(111,123,255,0.06), transparent 8%),
+        radial-gradient(800px 400px at 95% 90%, rgba(107,235,180,0.02), transparent 8%),
+        var(--bg);
+      color: #e9eefb;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      padding:32px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:18px;
+    }
+
+    h1{
+      margin:0;
+      font-size:clamp(20px, 3.2vw, 28px);
+      letter-spacing:0.2px;
+      font-weight:600;
+      text-align:center;
+      color: #f3f6ff;
+    }
+
+    .top-row{
+      width:100%;
+      max-width:980px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+    }
+
+    .subtle{
+      color: #c7cbe6;
+      font-size:0.9rem;
+      opacity:0.9;
+    }
+
+    .controls {
+      display:flex;
+      gap:8px;
+      align-items:center;
+    }
+
+    .btn {
+      border: none;
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+      color: var(--muted);
+      padding:8px 12px;
+      border-radius:10px;
+      cursor:pointer;
+      font-size:0.9rem;
+      box-shadow: 0 6px 16px rgba(4,6,20,0.5);
+      transition: transform .12s ease, box-shadow .12s ease;
+    }
+    .btn:active{ transform: translateY(1px) }
+    .btn.ghost{ background:transparent; border:1px solid rgba(255,255,255,0.04) }
+    .btn.warn{ color:var(--danger) }
+
+    .container{
+      width:100%;
+      max-width:980px;
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:18px;
+      margin-top: 10px;
+    }
+
+    @media (max-width:880px){
+      .container{ grid-template-columns: repeat(2, 1fr) }
+    }
+    @media (max-width:560px){
+      .container{ grid-template-columns: 1fr }
+      .top-row{flex-direction:column; align-items:flex-start; gap:10px}
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius: var(--radius);
+      padding: var(--card-pad);
+      box-shadow: 0 8px 30px rgba(2,6,30,0.6);
+      min-height:140px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      border: 1px solid rgba(255,255,255,0.03);
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+    .card:hover{
+      transform: translateY(-6px);
+      box-shadow: 0 18px 40px rgba(2,6,30,0.65);
+    }
+
+    .card-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:8px;
+    }
+
+    .day{
+      font-weight:700;
+      letter-spacing:0.6px;
+      font-size:1rem;
+      color: #fff;
+    }
+
+    .hint{
+      font-size:0.82rem;
+      color: #bfc7ff;
+      opacity:0.75;
+    }
+
+    .input-row{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      width:100%;
+    }
+
+    input[type="text"]{
+      flex:1;
+      padding:10px 12px;
+      border-radius:10px;
+      border: 1px solid rgba(255,255,255,0.04);
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.01));
+      color: #eef1ff;
+      outline:none;
+      font-size:0.95rem;
+      transition: box-shadow .12s ease, border-color .12s ease;
+      min-width:0; /* allow shrinking on small screens */
+    }
+    input[type="text"]::placeholder { color: rgba(255,255,255,0.35) }
+    input[type="text"]:focus{
+      box-shadow: 0 6px 20px rgba(111,123,255,0.12);
+      border-color: var(--accent);
+    }
+    .unlock-btn{
+      padding:10px 12px;
+      border-radius:10px;
+      border:none;
+      background:linear-gradient(180deg,var(--accent), #5b66ff);
+      color:white;
+      font-weight:600;
+      cursor:pointer;
+      box-shadow: 0 8px 20px rgba(107,113,255,0.18);
+    }
+    .unlock-btn:disabled{
+      opacity:0.45; cursor:default; transform:none;
+      box-shadow:none;
+    }
+
+    .reveal{
+      margin-top:6px;
+      background: rgba(255,255,255,0.02);
+      padding:12px;
+      border-radius:10px;
+      display:block;
+      font-size:0.95rem;
+      line-height:1.45;
+      color:#e8eefc;
+      max-height:160px;
+      overflow:auto;
+      white-space:pre-wrap;
+      word-break:break-word;
+      border: 1px solid rgba(255,255,255,0.02);
+      opacity:0;
+      transform: translateY(6px);
+      transition: opacity .28s ease, transform .28s ease;
+    }
+
+    .reveal.visible{
+      opacity:1;
+      transform: translateY(0);
+    }
+
+    .unlocked-indicator{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      font-size:0.85rem;
+      color:var(--success);
+      font-weight:600;
+    }
+
+    .icon{
+      width:18px;
+      height:18px;
+      display:inline-block;
+      vertical-align:middle;
+    }
+
+    .small-muted{
+      font-size:0.8rem;
+      color:#c9cee8;
+      opacity:0.7;
+    }
+
+    footer{
+      margin-top:14px;
+      color:#bfc7ff;
+      font-size:0.85rem;
+      opacity:0.9;
+      text-align:center;
+    }
+
+    /* scrollbar styling for reveal boxes (light and minimal) */
+    .reveal::-webkit-scrollbar{ height:8px; width:8px }
+    .reveal::-webkit-scrollbar-thumb{
+      background: rgba(255,255,255,0.06);
+      border-radius:8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="top-row" style="width:100%;max-width:980px">
+    <div>
+      <h1>Seven Days of Thipmas</h1>
+      <div class="subtle small-muted">Seven Days, Seven Presents</div>
     </div>
-    <div class="container">
-        <h2>Well here's a game scene I made that includes a bunch of messages from people you know (sorry about the size):</h2>
+
+    <div class="controls" aria-hidden="false">
+      <button class="btn ghost" id="show-unlocked">Show unlocked</button>
+      <button class="btn warn" id="reset">Reset unlocks</button>
     </div>
-    <div class="container">
-        <a href="https://drive.google.com/file/d/1WK9WspaDrQ_rdHP5HpzUwokURqKGng2p/view?usp=sharing" target="_blank"><h2>Game Download</h2></a>
-    </div>
-    <div class="container">
-        <h2>Some behind the scenes (don't watch until you've played the game!):</h2>
-    </div>
-    <div class="container">
-        <a href="https://youtu.be/91N7zyAyteE" target="_blank"><h2>Youtube Video</h2></a>
-    </div>
-  </body>
+  </div>
+
+  <div class="container" id="cards" role="list"></div>
+
+  <footer>
+    - A Brenden Project
+  </footer>
+
+  <script>
+    // data for the seven cards (Day labels already in place)
+    const prompts = [
+      { id: "day1", day: "Day 1 - Thinking of You", key: "sixseven", text: "These are small things I got / found that reminded me of you. I chose this as the first day because it reminds me a lot of how you do your gifting. Small, but consistent things that remind me that you are thinking of me. It feels like everytime I go throughout my day, my thoughts always lead back to you. I miss you a lot all the time and your heart will always be the most attractive thing in the world to me. The way you love weird things, the way you adopt small habits from people, the way you keep reaching out to me when I can't feel my own heart. I love your person so much, and I want to do so much better for you. You deserve the world, so don't settle for less." },
+      { id: "day2", day: "Day 2 - A Little More Purpose", key: "imissyou", text: "This present, I searched out specifically for you. I know you always bring that old deck of cards with you on trips and such, so I wanted to give you something a bit more fun to carry around. I hope you can get some woahs everytime you open this deck, and use it as a conversation starter at how banger you are at Balatro. Maybe even transition into how you crush at Tekken, or kick your bf's butt at Valorant. You've given me a lot of my firsts, and teaching me Balatro is just one of the many now. Cheers to taking more of my firsts, and me taking some of yours. " },
+      { id: "day3", day: "Day 3 - Errand Boy", key: "btsubs", text: "I missed this Halloween goody basket, so this is now a Christmas goodies basket. Things in here that I thought you'd need or want as a female human being. You are a big part of my heart now, so I need to take care of you. I need you to tell me when you're not beating well. I need you to use the rest of my mind and body as you need. I'm here for you, so please be selfish with me. You've work so hard to show me love, while maintaining your own life and relationships, I know it's hard to balance, and is a heavy strain on you, just like a heart. I really respect, and love you for all you do. Networking, nursing, caring for your parents, cooking for people who are hungry, loving people when they can't love themselves. You are the love I want, but also the love I am so proud of." },
+      { id: "day4", day: "Day 4 - Big Moving Toilet", key: "promise", text: "This is my promise to you to choose you every single time, and to love you and only you. You can take these rings, but this moment is my promise to you and will stay with you for as long as you hold it, regardless if you lose these rings. No matter how far we are apart or how long we have to focus on ourselves, families, friends, or our careers, I will always think about you and return to only you. Ups and downs, highs and lows, you are mine and I am yours, and it will stay that way. Do you promise me?" },
+      { id: "day5", day: "Day 5 - Vrooooom", key: "marbling", text: "We're going on a trip in our favourite rocket ship! A railbike! It's a seasonal thing, and I wanted to take you out in my own way, so I thought this was perfect. I just want a trip alone, with my girlfriend, to be honest. LOVE MEEEEE. You wouldn't mind sitting alone with me for an hour as we hold hands, pedalling (with your thunder thighs), as we talk and laugh, would you? If not, let's keep doing it for the rest of our lives." },
+      { id: "day6", day: "Day 6 - Funnys", key: "hamster", text: "I hope I could put a smile or giggle on your face with this. You always put a smile on my face, and make my day so much better. No matter how much I try to suppress it or try to keep myself busy, I always am bursting on the inside when I see you. Your small fashion statements everyday, along with the eyeliner on most days, your ability to show up and look at me in the eyes, your small trips before you get to my house. I notice all of it. I count down the minutes and hours when you say you'll come, and I can't wait to see you when you get out of your car or enter my house. When you look in my eyes and smile, I hope you're not forcing it, because you deserve to smile when you really feel it, and just look straight ahead when you're not." },
+      { id: "day7", day: "Day 7 - who said that", key: "isaidthat", text: "I want you. I love you. Quote me on this. Don't ever think otherwise. Stop saying I'm sorry. I'm your belonging. Do you still love me? Will you still love me?" }
+    ];
+
+    const STORAGE_KEY = 'thipmas-unlocked-v1';
+
+    // load saved state (object: {id:true,...})
+    const saved = (() => {
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+      } catch(e){ return {} }
+    })();
+
+    const container = document.getElementById('cards');
+
+    function saveState(obj){
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(obj)) } catch(e){}
+    }
+
+    function createCard(item){
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.setAttribute('data-id', item.id);
+      card.setAttribute('role','listitem');
+
+      // build inner HTML
+      card.innerHTML = `
+        <div class="card-head">
+          <div>
+            <div class="day">${item.day}</div>
+            <div class="hint small-muted">Enter the key for this day</div>
+          </div>
+          <div class="state-area" aria-hidden="true"></div>
+        </div>
+
+        <div class="input-row" aria-label="${item.day} input row">
+          <input type="text" placeholder="Enter key…" aria-label="${item.day} key input" />
+          <button class="unlock-btn" aria-label="Unlock ${item.day}">Unlock</button>
+        </div>
+
+        <div class="reveal" aria-live="polite"></div>
+      `;
+
+      const input = card.querySelector('input[type="text"]');
+      const btn = card.querySelector('.unlock-btn');
+      const reveal = card.querySelector('.reveal');
+      const stateArea = card.querySelector('.state-area');
+
+      // put the blurb text into reveal (use textContent to preserve plain text & wrapping)
+      reveal.textContent = item.text;
+
+      // helper to mark unlocked
+      function markUnlocked(){
+        reveal.classList.add('visible');
+        input.value = '✓ Unlocked';
+        input.disabled = true;
+        btn.disabled = true;
+        stateArea.innerHTML = `<span class="unlocked-indicator"><svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 6v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path><path d="M7 10l3 3 7-7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>Unlocked</span>`;
+      }
+
+      // initialize from saved
+      if (saved[item.id]) {
+        markUnlocked();
+      }
+
+      // check input (case-insensitive, trimmed)
+      function tryUnlock(){
+        const val = input.value?.trim();
+        if(!val) return;
+        if (val.toLowerCase() === item.key.toLowerCase()){
+          saved[item.id] = true;
+          saveState(saved);
+          markUnlocked();
+        } else {
+          // tiny feedback for wrong key
+          btn.animate([{ transform:'translateY(0)' }, { transform:'translateY(-4px)' }, { transform:'translateY(0)' }], { duration:220 });
+          input.animate([{ boxShadow:'0 0 0 rgba(0,0,0,0)' }, { boxShadow:'0 0 0 6px rgba(255,139,139,0.08)' }], { duration:350 });
+        }
+      }
+
+      // click or Enter
+      btn.addEventListener('click', tryUnlock);
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') tryUnlock();
+      });
+
+      return card;
+    }
+
+    // create all cards
+    prompts.forEach(p => container.appendChild(createCard(p)));
+
+    // control buttons
+    document.getElementById('reset').addEventListener('click', () => {
+      if (!confirm('Reset all unlocks? This will clear saved unlocks in your browser.')) return;
+      try { localStorage.removeItem(STORAGE_KEY) } catch(e){}
+      // reset UI
+      document.querySelectorAll('.card').forEach(card => {
+        const input = card.querySelector('input[type="text"]');
+        const btn = card.querySelector('.unlock-btn');
+        const reveal = card.querySelector('.reveal');
+        const stateArea = card.querySelector('.state-area');
+        input.disabled = false;
+        input.value = '';
+        btn.disabled = false;
+        reveal.classList.remove('visible');
+        stateArea.innerHTML = '';
+      });
+      // clear saved object in memory
+      for (const k in saved) delete saved[k];
+    });
+
+    document.getElementById('show-unlocked').addEventListener('click', () => {
+      const ids = Object.keys(saved).filter(k => saved[k]);
+      if (!ids.length) alert('No days unlocked yet.');
+      else alert('Unlocked: ' + ids.join(', '));
+    });
+
+    // Accessibility: focus first unopened input on load
+    (function focusFirst(){
+      const first = Array.from(document.querySelectorAll('.card')).find(c => !saved[c.dataset.id]);
+      if (first) first.querySelector('input').focus();
+    })();
+  </script>
+</body>
 </html>
