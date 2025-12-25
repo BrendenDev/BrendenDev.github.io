@@ -15,6 +15,8 @@
       --danger:#ff8b8b;
       --radius:14px;
       --card-pad:18px;
+      --christmas-red: rgba(255,80,90,0.035);
+      --christmas-green: rgba(90,200,120,0.03);
     }
 
     *{box-sizing:border-box}
@@ -22,14 +24,43 @@
     html,body{
       height:100%;
       margin:0;
-      background:
-        radial-gradient(1200px 600px at 10% 10%, rgba(111,123,255,0.06), transparent 8%),
-        radial-gradient(800px 400px at 95% 90%, rgba(107,235,180,0.02), transparent 8%),
-        var(--bg);
-      color: #e9eefb;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
+      /* dark theme with subtle christmas red & green highlights */
+      height: 100%;
+  margin: 0;
+
+  background:
+    /* cool ambient glow */
+    radial-gradient(1600px 900px at 12% 10%, rgba(111,123,255,0.08), transparent 65%),
+
+    /* christmas red wash */
+    radial-gradient(1200px 800px at 25% 20%, rgba(255,80,90,0.11), transparent 70%),
+
+    /* christmas green wash */
+    radial-gradient(1200px 800px at 75% 85%, rgba(90,200,120,0.11), transparent 70%),
+
+    /* subtle holiday diagonal blend */
+    linear-gradient(
+      135deg,
+      rgba(255,80,90,0.06),
+      rgba(0,0,0,0) 45%,
+      rgba(90,200,120,0.06) 75%,
+      rgba(0,0,0,0)
+    ),
+
+    /* deep base gradient — no hard stop */
+    linear-gradient(
+      180deg,
+      #06081a 0%,
+      #0a0d24 45%,
+      #0c1030 100%
+    );
+
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+
+  color: #e9eefb;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+  -webkit-font-smoothing: antialiased;
       padding:32px;
       display:flex;
       flex-direction:column;
@@ -169,6 +200,7 @@
       font-weight:600;
       cursor:pointer;
       box-shadow: 0 8px 20px rgba(107,113,255,0.18);
+      flex-shrink:0;
     }
     .unlock-btn:disabled{
       opacity:0.45; cursor:default; transform:none;
@@ -241,11 +273,10 @@
   <div class="top-row" style="width:100%;max-width:980px">
     <div>
       <h1>Seven Days of Thipmas</h1>
-      <div class="subtle small-muted">Seven Days, Seven Presents</div>
+      <div class="subtle small-muted">Seven Days, Seven Presents, Five Hours of Missing Sleep</div>
     </div>
 
     <div class="controls" aria-hidden="false">
-      <button class="btn ghost" id="show-unlocked">Show unlocked</button>
       <button class="btn warn" id="reset">Reset unlocks</button>
     </div>
   </div>
@@ -257,7 +288,7 @@
   </footer>
 
   <script>
-    // data for the seven cards (Day labels already in place)
+    // data for the seven cards (day labels)
     const prompts = [
       { id: "day1", day: "Day 1 - Thinking of You", key: "sixseven", text: "These are small things I got / found that reminded me of you. I chose this as the first day because it reminds me a lot of how you do your gifting. Small, but consistent things that remind me that you are thinking of me. It feels like everytime I go throughout my day, my thoughts always lead back to you. I miss you a lot all the time and your heart will always be the most attractive thing in the world to me. The way you love weird things, the way you adopt small habits from people, the way you keep reaching out to me when I can't feel my own heart. I love your person so much, and I want to do so much better for you. You deserve the world, so don't settle for less." },
       { id: "day2", day: "Day 2 - A Little More Purpose", key: "imissyou", text: "This present, I searched out specifically for you. I know you always bring that old deck of cards with you on trips and such, so I wanted to give you something a bit more fun to carry around. I hope you can get some woahs everytime you open this deck, and use it as a conversation starter at how banger you are at Balatro. Maybe even transition into how you crush at Tekken, or kick your bf's butt at Valorant. You've given me a lot of my firsts, and teaching me Balatro is just one of the many now. Cheers to taking more of my firsts, and me taking some of yours. " },
@@ -374,12 +405,6 @@
       });
       // clear saved object in memory
       for (const k in saved) delete saved[k];
-    });
-
-    document.getElementById('show-unlocked').addEventListener('click', () => {
-      const ids = Object.keys(saved).filter(k => saved[k]);
-      if (!ids.length) alert('No days unlocked yet.');
-      else alert('Unlocked: ' + ids.join(', '));
     });
 
     // Accessibility: focus first unopened input on load
