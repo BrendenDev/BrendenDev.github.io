@@ -1,0 +1,211 @@
+Valentine’s Duet — Product Roadmap
+
+Vision:
+Create a playful, interactive Valentine’s web app where a user can watch a background video, listen to sequential audio segments, and record themselves singing or harmonizing along with the music. All functionality is fully client-side, no backend, with easy local downloads of audio and video.
+
+Project Summary:
+Build a single-page, client-only Valentine’s web app that plays a background video and a sequence of numbered audio segments. The user can record themselves on segments that have instrumentals and the app will mix their recordings with the original audio during playback. All functionality runs entirely in the browser with no backend.
+
+Key Features:
+
+Video Playback: Full-screen background video (no audio) with Play/Pause controls.
+
+Audio Playback: Sequence of numbered audio segments plays in order on top of the video. Segment boundaries are visible in a timeline at the bottom of the screen. Users can click segments to jump to them.
+
+Recording:
+
+Segments with instrumentals show a Record button.
+
+When recording, playback starts at the segment’s beginning.
+
+User can choose whether to hear the instrumental or original audio while recording.
+
+Recording stops automatically at the end of the segment or when the user presses Done.
+
+Recorded audio is played on top of the original audio during subsequent playback.
+
+Users can adjust the volume of each recorded segment individually.
+
+Timeline: Shows all segments with boundaries based on their durations. Segments with recordings or instrumentals are clearly marked.
+
+Theme: Dark by default, but easily adjustable via CSS.
+
+Export / Download Functionality:
+
+Users can download three types of files locally:
+
+A single audio file with all original audio segments stitched together.
+
+A single audio file with all recorded segments stitched together, with silence for segments not recorded.
+
+A single video or audio file that contains the background video plus the final mixed audio (original audio plus user recordings).
+
+Constraints / Requirements:
+
+No backend server. All features must run in the browser.
+
+No Google Drive or cloud integration. All recordings and exports are local.
+
+Base functionality (playback, recording, mixing) should be prioritized first.
+
+UI should be flexible and themeable.
+
+All features should be intuitive and self-explanatory for the user.
+
+Acceptance Criteria:
+
+Video and audio play in sync.
+
+Timeline accurately reflects audio segments and allows seeking.
+
+Recording functionality works as described, with playback of recorded segments on top of the original.
+
+Downloading stitched originals, stitched recordings, and final mixed video/audio works correctly.
+
+Dark theme is applied by default and can be changed with CSS.
+------------------------------------------------
+
+DEVELOPMENT PHASES
+
+Phase 1 — Core Playback & Timeline
+
+Goal: Get video and audio playing correctly, with a timeline that shows segments.
+
+Features:
+
+Full-screen background video playback (mute/no audio).
+
+Audio segments play sequentially over the video.
+
+Timeline shows each segment with correct duration, labeled by number.
+
+Click on a segment to jump to it.
+
+Play/Pause controls for the entire playback.
+
+Dark theme applied by default (themeable later).
+
+Deliverables:
+
+Functional video + audio playback in sync.
+
+Timeline visually representing segments.
+
+Play/Pause and seek functionality works reliably.
+
+Phase 2 — Recording Functionality
+
+Goal: Allow the user to record themselves on specific segments.
+
+Features:
+
+Detect segments with instrumentals; show Record button for those.
+
+Clicking Record jumps playback to the start of the segment.
+
+User chooses whether to hear instrumental or original audio during recording.
+
+Recording stops automatically at the end of the segment or when the user presses Done.
+
+Recorded audio is played on top of the original audio for that segment in subsequent playback.
+
+Volume control for each recorded segment individually.
+
+Clear visual indication of which segments have recordings.
+
+Deliverables:
+
+Users can record segments and hear their recordings over the original audio.
+
+Segment-specific playback behaves correctly (mix of original + recording).
+
+Timeline updates to show recorded segments.
+
+Phase 3 — Local Downloads
+
+Goal: Allow the user to export their work locally.
+
+Downloads required:
+
+Stitched original audio — all audio segments combined in order.
+
+Stitched recorded audio — all recorded segments combined in order, with silence for unrecorded segments.
+
+Final mixed video/audio — background video combined with original + recorded audio for a single playable file.
+
+Deliverables:
+
+Buttons or options to download each file locally.
+
+Ensure exported audio and video are correctly synchronized and match timeline.
+
+Warn users about potential performance limits for large video/audio files.
+
+Phase 4 — UI & Theme Flexibility
+
+Goal: Make the app visually appealing and easy to customize.
+
+Features:
+
+Dark theme by default.
+
+Timeline colors and segment indicators configurable via CSS.
+
+Volume sliders and Record buttons visually clear.
+
+Optional light/dark mode toggle.
+
+Overlay controls (play/pause, recording, download) easy to locate and use.
+
+Deliverables:
+
+Flexible theme system.
+
+User-friendly interface with clear affordances.
+
+All visual elements scale correctly on common screen sizes.
+
+Phase 5 — Testing & QA
+
+Goal: Ensure all core features work reliably across browsers.
+
+Tests / Criteria:
+
+Playback is synchronized between video and audio segments.
+
+Recording works for all eligible segments.
+
+Recorded segments play correctly over original audio during playback.
+
+Downloads produce correct stitched files.
+
+Timeline accurately reflects segment boundaries and recorded segments.
+
+UI is responsive and intuitive.
+
+Works on major desktop browsers (Chrome, Firefox, Edge).
+
+Performance is acceptable for average-length videos (under 5 minutes).
+
+Phase 6 — Optional Enhancements
+
+Nice-to-have (can defer until MVP is stable):
+
+Progress indicators or modal during export of final video/audio.
+
+Ability to re-record a segment or replace previous recording.
+
+Additional theming or visual effects for Valentine’s theme.
+
+Small celebratory animations or confetti when recordings are done.
+
+Mobile-friendly adjustments if possible.
+
+High-Level Roadmap Summary Table
+Phase	Goal	Key Features	Deliverables
+1	Core Playback	Video & sequential audio, timeline, Play/Pause	Functional playback + timeline
+2	Recording	Record segments, select instrumental/original, auto-stop, per-segment volume	Recordings work & play over original audio
+3	Local Downloads	Stitch original audio, stitched recordings, final mixed video/audio	Download buttons produce correct files
+4	UI & Theme	Dark theme default, CSS theming, clear controls	Flexible, user-friendly interface
+5	Testing & QA	Playback sync, recording validation, download verification	Reliable app across desktop browsers
+6	Optional Enhancements	Export progress, re-record, animations, mobile	Polished user experience

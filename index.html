@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thiptine's Day</title>
+  <meta name="description" content="Thiptine's Day">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+
+  <!-- ═══ Main App Container ═══ -->
+  <div class="app-container">
+
+    <!-- ═══ Video Area (fills remaining space above control bar) ═══ -->
+    <div class="video-area">
+      <video id="bg-video" playsinline preload="auto">
+        <source src="https://www.dropbox.com/scl/fi/tw67ldszradzvu93hncba/ValentinesVideo2026.mov?rlkey=s4aoa7uw3blr1jbovujzzwzcg&raw=1" type="video/quicktime">
+        <source src="https://www.dropbox.com/scl/fi/tw67ldszradzvu93hncba/ValentinesVideo2026.mov?rlkey=s4aoa7uw3blr1jbovujzzwzcg&raw=1" type="video/mp4">
+      </video>
+      <div class="gradient-overlay"></div>
+      <div class="center-controls" id="center-controls">
+        <button class="play-btn-large" id="play-btn-large" aria-label="Play">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="48" height="48">
+            <polygon points="6,4 20,12 6,20" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- ═══ Bottom Control Bar ═══ -->
+    <div class="control-bar" id="control-bar">
+
+      <!-- Title (clickable for secret) -->
+      <h1 class="bar-title" id="bar-title" style="cursor: pointer;">Thiptine's Day <span class="bar-title-hint">(click
+          here)</span></h1>
+
+      <!-- Inline Recording Controls (shown when unlocked) -->
+      <div class="recording-bar hidden" id="recording-panel">
+        <div class="rec-indicator hidden" id="rec-indicator">
+          <span class="rec-dot"></span>
+          <span class="rec-text">Recording…</span>
+        </div>
+        <div class="rec-bar-actions">
+          <button class="rec-bar-btn" id="btn-record" aria-label="Record" title="Start Recording">
+            <svg class="mic-icon" viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
+              <path
+                d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm-1-9c0-.55.45-1 1-1s1 .45 1 1v6c0 .55-.45 1-1 1s-1-.45-1-1V5z" />
+              <path
+                d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z" />
+            </svg>
+            <span class="rec-btn-label" id="rec-btn-label">Record</span>
+          </button>
+          <button class="rec-bar-btn rec-btn-done hidden" id="btn-rec-done" aria-label="Done" title="Stop Recording">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
+              <path d="M6 6h12v12H6z" />
+            </svg>
+            <span>Done</span>
+          </button>
+        </div>
+        <div class="audio-source-toggle" id="audio-source-toggle">
+          <div class="toggle-pills">
+            <button class="toggle-pill active" data-source="original" id="pill-original">Original</button>
+            <button class="toggle-pill" data-source="muted" id="pill-instrumental">Muted</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Playback Controls Row -->
+      <div class="controls-row">
+        <button class="ctrl-btn" id="btn-skip-back" aria-label="Skip back 5 seconds" title="-5s">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M11.99 5V1l-5 5 5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6h-2c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z" />
+            <text x="12" y="15.5" text-anchor="middle" font-size="7" font-weight="700" fill="currentColor">5</text>
+          </svg>
+        </button>
+
+        <button class="ctrl-btn ctrl-btn-play" id="btn-play" aria-label="Play / Pause" title="Play">
+          <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor">
+            <polygon points="6,4 20,12 6,20" />
+          </svg>
+          <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none">
+            <path d="M6 4h4v16H6zM14 4h4v16h-4z" />
+          </svg>
+        </button>
+
+        <button class="ctrl-btn" id="btn-skip-fwd" aria-label="Skip forward 5 seconds" title="+5s">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M12.01 5V1l5 5-5 5V7c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6h2c0 4.42-3.58 8-8 8s-8-3.58-8-8 3.58-8 8-8z" />
+            <text x="12" y="15.5" text-anchor="middle" font-size="7" font-weight="700" fill="currentColor">5</text>
+          </svg>
+        </button>
+
+        <div class="time-display">
+          <span id="time-current">0:00</span>
+          <span class="time-sep">/</span>
+          <span id="time-total">0:00</span>
+        </div>
+
+        <div class="volume-control">
+          <svg class="volume-icon" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z" />
+          </svg>
+          <input type="range" id="volume-slider" class="slider" min="0" max="100" value="80" aria-label="Volume">
+        </div>
+
+        <button class="ctrl-btn ctrl-btn-mic hidden" id="btn-toggle-rec" aria-label="Toggle Recording Panel"
+          title="Show/Hide Recording">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z" />
+            <path
+              d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z" />
+          </svg>
+        </button>
+
+        <button class="ctrl-btn ctrl-btn-download hidden" id="btn-download" aria-label="Download" title="Download">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Timeline -->
+      <div class="timeline-container" id="timeline-container">
+        <div class="timeline-bar" id="timeline-bar">
+          <div class="timeline-progress" id="timeline-progress"></div>
+        </div>
+        <div class="timeline-tooltip" id="timeline-tooltip"></div>
+      </div>
+
+      <!-- Recording Clips Timeline (shown when unlocked and has recordings) -->
+      <div class="rec-timeline-container hidden" id="rec-timeline-container">
+        <div class="rec-timeline-label">🎤 Recordings</div>
+        <div class="rec-timeline-bar" id="rec-timeline-bar"></div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ═══ Password Prompt Modal ═══ -->
+  <div class="secret-modal hidden" id="password-modal">
+    <div class="secret-modal-backdrop" id="password-backdrop"></div>
+    <div class="secret-modal-content">
+      <button class="secret-modal-close" id="password-close" aria-label="Close">✕</button>
+      <h2 class="secret-modal-title">Enter Thipmas Day 6 Password</h2>
+      <p class="secret-modal-desc">I didn't forget, I just suck at making things</p>
+      <div class="secret-input-row">
+        <input type="password" id="password-input" class="secret-input" placeholder="Password..." autocomplete="off" />
+        <button class="secret-submit" id="password-submit">Unlock</button>
+      </div>
+      <p class="secret-error hidden" id="password-error">Hmm, that's not it. Try again!</p>
+    </div>
+  </div>
+
+  <!-- ═══ Personal Message Modal ═══ -->
+  <div class="secret-modal hidden" id="message-modal">
+    <div class="secret-modal-backdrop" id="message-backdrop"></div>
+    <div class="secret-modal-content message-content">
+      <button class="secret-modal-close" id="message-close" aria-label="Close">✕</button>
+      <h2 class="secret-modal-title">Day 6 - Funnys</h2>
+      <p class="secret-modal-message">I hope I could put a smile or giggle on your face with this. You always put a
+        smile on my face, and make my day so much better. No matter how much I try to suppress it or try to keep myself
+        busy, I always am bursting on the inside when I see you. Your small fashion statements everyday, along with the
+        eyeliner on most days, your ability to show up and look at me in the eyes, your small trips before you get to my
+        house. I notice all of it. I count down the minutes and hours when you say you'll come, and I can't wait to see
+        you when you get out of your car or enter my house. When you look in my eyes and smile, I hope you're not
+        forcing it, because you deserve to smile when you really feel it, and just look straight ahead when you're not.
+      </p>
+    </div>
+  </div>
+
+
+
+  <!-- ═══ Export Modal (Phase 3) ═══ -->
+  <div class="export-modal hidden" id="export-modal">
+    <div class="export-modal-backdrop" id="export-modal-backdrop"></div>
+    <div class="export-modal-content">
+      <div class="export-header">
+        <h2 class="export-title">Download</h2>
+        <button class="export-close" id="export-close" aria-label="Close">✕</button>
+      </div>
+
+      <p class="export-desc">Export Song!!</p>
+
+      <div class="export-options">
+        <button class="export-option" id="dl-original-video">
+          <div class="export-option-icon">🎬</div>
+          <div class="export-option-info">
+            <span class="export-option-title">Original Video</span>
+            <span class="export-option-desc">Download the original video file</span>
+          </div>
+        </button>
+
+        <button class="export-option" id="dl-recordings">
+          <div class="export-option-icon">🎤</div>
+          <div class="export-option-info">
+            <span class="export-option-title">Recordings Only</span>
+            <span class="export-option-desc">Your recorded clips with silence in between (WAV)</span>
+          </div>
+        </button>
+      </div>
+
+      <div class="export-progress hidden" id="export-progress">
+        <div class="export-progress-bar">
+          <div class="export-progress-fill" id="export-progress-fill"></div>
+        </div>
+        <span class="export-progress-text" id="export-progress-text">Preparing…</span>
+      </div>
+
+      <p class="export-warning">⚠️ Don't close this tab during export!
+      </p>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="config.js"></script>
+  <script src="js/videoPlayer.js"></script>
+  <script src="js/audioEngine.js"></script>
+  <script src="js/recorder.js"></script>
+  <script src="js/exporter.js"></script>
+  <script src="js/timeline.js"></script>
+  <script src="js/recTimeline.js"></script>
+  <script src="js/app.js"></script>
+</body>
+
+</html>
